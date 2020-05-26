@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <time.h>
-
-void diviner(int num[],int temp){
+void divide(int *num,int temp){
     for (int i=0;i<4;i++){
         num[i] = temp % 10;
         temp = temp / 10;
@@ -31,7 +26,7 @@ int random(int ld,int rd){
     while (flag!=true){
         temp=rand()%(rd-ld+1)+ld;
         //printf("%d\n",temp);
-        diviner(mas,temp);
+        divide(mas,temp);
         flag=checker(mas);
     }
     return temp;
@@ -43,13 +38,13 @@ int human_choice(int *num,int attempt){
     printf("Attempt:%d\n",attempt);
     printf("Enter num:");
     scanf("%d", & n);
-    diviner(num,n);
+    divide(num,n);
     while(flag!=true){
         if (( n>rd)||( n<ld)||(checker(num)==false)){
             printf("Number entered incorrectly,retry");
             printf("\nEnter new num:");
             scanf("%d", & n);
-            diviner(num,n);
+            divide(num,n);
         } else if(( n<rd)&&( n>ld)){ flag=true;}
     }
 
@@ -65,7 +60,7 @@ void game(int secret,int start[],int check[]){
             bull=4;
         }
         else {
-            diviner(check,chosen_number);
+            divide(check,chosen_number);
             for(int i=0;i<4;i++){
                 for (int j=0;j<4;j++){
                     if ((check[j]==start[i])&&(j==i)){
@@ -87,12 +82,12 @@ void game(int secret,int start[],int check[]){
 }
 
 int main (){
-    int secretn;
+    int secret;
     int start[4];
     int check[4];
-    secretn=random(1000,9999);
-    printf("%d\n",secretn);
-    diviner(start,secretn);
-    game(secretn,start,check);
+    secret=random(1000,9999);
+    printf("%d\n",secret);
+    divide(start,secret);
+    game(secret,start,check);
     return 0;
 }
